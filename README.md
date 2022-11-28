@@ -7,7 +7,7 @@ The app uses ```youtube_explode_dart``` package to download the music audio and 
 The idea for the project and actual implemention is completely mine. Only the name "Spotify" is copied to answer the question - "What does this app do?" and gain some attraction whynot.  I am Welcoming more contributers.
 This project is created with the intention of listening to music while coding. Because coding without music is just pure bad!
 
-Click [here](https://www.music-streaming-app-1d37a.web.app/ "Spotify Web App") to see the live website hosted using firebase hosting.
+Click [here](https://music-streaming-app-1d37a.web.app "Spotify Web App") to see the live website hosted using firebase hosting.
 
 ## Libraries used
 ***
