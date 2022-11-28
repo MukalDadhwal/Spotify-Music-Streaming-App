@@ -45,8 +45,12 @@ class _UploadScreenState extends State<UploadScreen> {
           await youtube.videos.streamsClient.getManifest(videoId);
       var audio = streamManifest.audioOnly.first;
       var audioStream = youtube.videos.streamsClient.get(audio);
-      var file = File(
-          '${applicationDocumentsDirectory.uri.toFilePath()}/$fileName.mp4');
+
+      var file = File('${applicationDocumentsDirectory.path}/$fileName.mp4');
+
+      if (await file.exists()) {
+        await file.delete();
+      }
 
       var output = file.openWrite(mode: FileMode.writeOnlyAppend);
 
@@ -65,6 +69,8 @@ class _UploadScreenState extends State<UploadScreen> {
           'author': author,
         };
       });
+
+      await file.create();
     } catch (_) {
       throw const HttpException('Something Went Wrong!');
     } finally {

@@ -20,7 +20,19 @@ class SliverSet extends StatefulWidget {
 }
 
 class _SliverSetState extends State<SliverSet> {
-  var _scrollController = ScrollController();
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
 
   void _showMusicPlayer(
     BuildContext context,

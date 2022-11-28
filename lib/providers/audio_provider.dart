@@ -66,15 +66,10 @@ class Audio with ChangeNotifier {
             'author': videoAuthor,
           },
         );
+        final storageReff =
+            FirebaseStorage.instance.ref().child('files/$fileName');
 
-        final UploadTask reff = FirebaseStorage.instance
-            .ref('files/')
-            .child(fileName)
-            .putFile(file, metadata);
-
-        if (reff == null) {
-          throw Exception();
-        }
+        storageReff.putFile(file, metadata);
       }
     } catch (_) {
       throw HttpException('Something went wrong file uploading to the server');
