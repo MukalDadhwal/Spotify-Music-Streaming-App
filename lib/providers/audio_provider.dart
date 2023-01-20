@@ -15,40 +15,45 @@ class Audio with ChangeNotifier {
   }
 
   Future<void> fetchAndSetMusic() async {
-    String path = 'files/';
+    try {
+      String path = 'files/';
 
-    final ref = FirebaseStorage.instance.ref(path);
-    final result = await ref.listAll();
-    List<Reference> refs = result.items;
+      final ref = FirebaseStorage.instance.ref().child(path);
+      final result = await ref.listAll();
+      List<Reference> refs = result.items;
 
-    var metadata =
-        await Future.wait(refs.map((ref) => ref.getMetadata()).toList());
-    final List<MusicObject> loadedMusicObjects = [];
+      var metadata =
+          await Future.wait(refs.map((ref) => ref.getMetadata()).toList());
+      final List<MusicObject> loadedMusicObjects = [];
 
-    await Future.forEach(
-      metadata,
-      (item) async {
-        String downloadUrl = await FirebaseStorage.instance
-            .ref(
-              'files/${item.customMetadata['id']}.mp4',
-            )
-            .getDownloadURL();
-        loadedMusicObjects.add(
-          MusicObject(
-            id: item.customMetadata['id'],
-            title: item.customMetadata['title'],
-            duration: int.parse(
-              item.customMetadata['duration'],
+      await Future.forEach(
+        metadata,
+        (item) async {
+          String downloadUrl = await FirebaseStorage.instance
+              .ref(
+                'files/${item.customMetadata['id']}.mp4',
+              )
+              .getDownloadURL();
+          loadedMusicObjects.add(
+            MusicObject(
+              id: item.customMetadata['id'],
+              title: item.customMetadata['title'],
+              duration: int.parse(
+                item.customMetadata['duration'],
+              ),
+              thumbNailUrl: item.customMetadata['thumbnailUrl'],
+              author: item.customMetadata['author'],
+              audioUrl: downloadUrl,
             ),
-            thumbNailUrl: item.customMetadata['thumbnailUrl'],
-            author: item.customMetadata['author'],
-            audioUrl: downloadUrl,
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
 
-    musicObjects = loadedMusicObjects;
+      musicObjects = loadedMusicObjects;
+    } catch (e) {
+      throw e;
+    }
+
     notifyListeners();
   }
 

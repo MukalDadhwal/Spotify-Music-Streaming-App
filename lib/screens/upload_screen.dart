@@ -51,6 +51,7 @@ class _UploadScreenState extends State<UploadScreen> {
       if (await file.exists()) {
         await file.delete();
       }
+      await file.create();
 
       var output = file.openWrite(mode: FileMode.writeOnlyAppend);
 
@@ -69,8 +70,6 @@ class _UploadScreenState extends State<UploadScreen> {
           'author': author,
         };
       });
-
-      await file.create();
     } catch (_) {
       throw const HttpException('Something Went Wrong!');
     } finally {
